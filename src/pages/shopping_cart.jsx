@@ -21,17 +21,15 @@ export default function ShoppingCartView() {
             id: 'urgent'
         }
     ]
-    
-    //['1', '1', '1', '1', '3', '3']
+
     const { shoppingCart } = useContext(ShoppingCartContext)
-    // [{brand: 'first_brand', id: 1}, {brand: 'second_brand', id: 2}, {brand: 'third_brand', id: 3}]
     const { coffees } = useContext(ApiContext)
 
     const cartCoffees = getShoppingCartCoffees(
-        shoppingCart,    // ['1', '1', '1', '1', '3', '3']
-        coffees          // [{brand: 'first_brand', id: 1}, {brand: 'second_brand', id: 2}, {brand: 'third_brand', id: 3}]
+        shoppingCart,    
+        coffees
     )
-
+    console.log(cartCoffees)
     const totalPrice = getTotalCartPrice(cartCoffees)
 
     const [shipping, setShipping] = useState('standard')
@@ -41,12 +39,9 @@ export default function ShoppingCartView() {
 
     useEffect(() => {
         setShippingPrice(shippingOptions.find(shippingOption => shippingOption.id === shipping)?.price || 0)
-    }, [shipping])
-    
-    useEffect(() => {
+        setVatPrice((totalPriceWithShipping) * 0.21)
         setTotalPriceWithShipping(totalPrice + shippingPrice)
-        setVatPrice((totalPrice + shippingPrice) * 0.21)
-    }, [shippingPrice])
+    }, [shipping, shippingPrice, totalPrice, totalPriceWithShipping])
 
     return (
         <>
@@ -94,15 +89,12 @@ export default function ShoppingCartView() {
 }
 
 function getShoppingCartCoffees(
-    coffeeIds,           // ['1', '1', '1', '1', '3', '3']
-    coffees              // [{brand: 'first_brand', _id: 1}, {brand: 'second_brand', _id: 2}, {brand: 'third_brand', _id: 3}]
+    coffeeIds,           
+    coffees             
 ) {
     const uniqueCoffeeIds = [...new Set(coffeeIds)]
-    // ['1', '3']
     return uniqueCoffeeIds.map(id => ({
-        // [{brand: 'first_brand', _id: 1}, {brand: 'second_brand', _id: 2}, {brand: 'third_brand', _id: 3}]
         ...(coffees.find(coffee => coffee._id === id)),
-        // ['1', '1', '1', '1', '3', '3']
         quantity: coffeeIds.filter(coffeeId => coffeeId === id).length
     }))
 }

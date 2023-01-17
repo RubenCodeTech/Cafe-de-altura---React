@@ -1,7 +1,7 @@
 import formatPrice from "../utils/formatPrice"
 import Checkbox from "./Checkbox"
 
-export default function Shipping({ id, title, description, selected, price, onChange }) {
+export default function Shipping({ id, title, description, price, onChange }) {
 
     return (
         <div className="flex items-start gap-[24px] w-full py-[20px] border-b-[1px] border-taupe last:border-b-0">
