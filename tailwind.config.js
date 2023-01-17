@@ -22,13 +22,14 @@ module.exports = {
       'green': '#2A5B45',
       'Timberwolf': '#d5d2cd',
       'strong-grey': '#2b2a2b',
+      'offwhite': '#f7f5f3',
+      'taupe' : '#E3DED7',
     },
-  
     extend: {
       backgroundImage: {
         'coffeeBg': "url('/src/images/coffeeBg.png')",
       },
-     
+
     },
   },
   plugins: [],
